@@ -1,0 +1,1021 @@
+[
+    {
+        "id": "8adea445127c6606",
+        "type": "tab",
+        "label": "MKU2424B Control",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "68ce07b943770413",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "addNewline",
+        "func": "msg.payload = Buffer.from(msg.payload + \"\\n\\r\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 40,
+        "wires": [
+            [
+                "9fe6d29be4021b5f"
+            ]
+        ]
+    },
+    {
+        "id": "471c5b8ea9a355d0",
+        "type": "ui_gauge",
+        "z": "8adea445127c6606",
+        "name": "",
+        "group": "a9b2b1825e4875bb",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "PA Temperature",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "20",
+        "max": "75",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "45",
+        "seg2": "60",
+        "diff": false,
+        "className": "",
+        "x": 760,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9fe6d29be4021b5f",
+        "type": "serial request",
+        "z": "8adea445127c6606",
+        "name": "mku2424Serial",
+        "serial": "f535e36151d6ab58",
+        "x": 1040,
+        "y": 40,
+        "wires": [
+            [
+                "aa1e3dbd9a5622e9"
+            ]
+        ]
+    },
+    {
+        "id": "0967ad8348a30ebe",
+        "type": "switch",
+        "z": "8adea445127c6606",
+        "name": "typeSwitch",
+        "property": "type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "power",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ptt",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "fwdpwr",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "refpwr",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "lo",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pll",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "version",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 8,
+        "x": 210,
+        "y": 720,
+        "wires": [
+            [
+                "7d9e91ddbaa56205",
+                "a0ba7152f7d24666"
+            ],
+            [
+                "471c5b8ea9a355d0",
+                "8be6ca1d0fe4cd28",
+                "e02fcfefd69db24d"
+            ],
+            [
+                "2aa19e56a6ae4f22",
+                "4987d819a20948dd"
+            ],
+            [
+                "f4a3e6788aa617d7",
+                "c3ac74e730ac3f8b"
+            ],
+            [
+                "4653effffe447ce9",
+                "73497f1dd137c34e"
+            ],
+            [
+                "ce9f8d42c111e6b8",
+                "be774dfc7364e566"
+            ],
+            [
+                "bfc22b94c7d6e485",
+                "d23c7eca6c9cf44d"
+            ],
+            [
+                "186d8601c011d095"
+            ]
+        ]
+    },
+    {
+        "id": "dcbf61e65a7ea308",
+        "type": "inject",
+        "z": "8adea445127c6606",
+        "name": "powerPoller",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "type",
+                "v": "power",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "o",
+        "payloadType": "str",
+        "x": 210,
+        "y": 40,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "aa1e3dbd9a5622e9",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "trimmer",
+        "func": "msg.payload = msg.payload.trim();\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 220,
+        "wires": [
+            [
+                "0967ad8348a30ebe"
+            ]
+        ]
+    },
+    {
+        "id": "186d8601c011d095",
+        "type": "ui_text",
+        "z": "8adea445127c6606",
+        "group": "e09405bf2a73fefa",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Firmware Version",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 770,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "bfc22b94c7d6e485",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "extRefValue",
+        "func": "if (msg.payload == \"1\") {\n    msg.payload = true\n} else {\n    msg.payload = false\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 1000,
+        "wires": [
+            [
+                "b64a125970320921"
+            ]
+        ]
+    },
+    {
+        "id": "f4a3e6788aa617d7",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "calcFwdPwr",
+        "func": "msg.payload = Number(msg.payload) / 255 * 20\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 640,
+        "wires": [
+            [
+                "d5ac91c88cad8ffa"
+            ]
+        ]
+    },
+    {
+        "id": "d5ac91c88cad8ffa",
+        "type": "ui_gauge",
+        "z": "8adea445127c6606",
+        "name": "",
+        "group": "a9b2b1825e4875bb",
+        "order": 2,
+        "width": "6",
+        "height": "6",
+        "gtype": "gage",
+        "title": "Forward Power",
+        "label": "W",
+        "format": "{{value | number:2}} W",
+        "min": 0,
+        "max": "20",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "13.5",
+        "seg2": "17.5",
+        "diff": false,
+        "className": "",
+        "x": 1140,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7d9e91ddbaa56205",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "powerText",
+        "func": "if (msg.payload == \"1\") {\n    msg.payload = true\n} else {\n    msg.payload = \"off\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 220,
+        "wires": [
+            [
+                "589e161cadfaee7d"
+            ]
+        ]
+    },
+    {
+        "id": "4653effffe447ce9",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "calcRefPwr",
+        "func": "msg.payload = Number(msg.payload) / 255 * 20\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 760,
+        "wires": [
+            [
+                "e1f3b0bf6d36740e"
+            ]
+        ]
+    },
+    {
+        "id": "e1f3b0bf6d36740e",
+        "type": "ui_gauge",
+        "z": "8adea445127c6606",
+        "name": "",
+        "group": "a9b2b1825e4875bb",
+        "order": 3,
+        "width": "6",
+        "height": "6",
+        "gtype": "gage",
+        "title": "Reflected Power",
+        "label": "W",
+        "format": "{{value | number:2}} W",
+        "min": 0,
+        "max": "5",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "3",
+        "seg2": "4",
+        "diff": false,
+        "className": "",
+        "x": 1140,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "f460a6e78252a95c",
+        "type": "change",
+        "z": "8adea445127c6606",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 480,
+        "wires": [
+            [
+                "f2ffa0ed4a86bda9"
+            ]
+        ]
+    },
+    {
+        "id": "2aa19e56a6ae4f22",
+        "type": "switch",
+        "z": "8adea445127c6606",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 730,
+        "y": 500,
+        "wires": [
+            [
+                "f460a6e78252a95c"
+            ],
+            [
+                "1315bdf9e3ed966b"
+            ]
+        ]
+    },
+    {
+        "id": "1315bdf9e3ed966b",
+        "type": "change",
+        "z": "8adea445127c6606",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 520,
+        "wires": [
+            [
+                "f2ffa0ed4a86bda9"
+            ]
+        ]
+    },
+    {
+        "id": "589e161cadfaee7d",
+        "type": "ui_led",
+        "z": "8adea445127c6606",
+        "order": 1,
+        "group": "e09405bf2a73fefa",
+        "width": "0",
+        "height": "0",
+        "label": "Power",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "powerLed",
+        "x": 1120,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f2ffa0ed4a86bda9",
+        "type": "ui_led",
+        "z": "8adea445127c6606",
+        "order": 2,
+        "group": "e09405bf2a73fefa",
+        "width": 0,
+        "height": 0,
+        "label": "PTT",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "true",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "false",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "pttLed",
+        "x": 1110,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b64a125970320921",
+        "type": "ui_led",
+        "z": "8adea445127c6606",
+        "order": 3,
+        "group": "e09405bf2a73fefa",
+        "width": 0,
+        "height": 0,
+        "label": "ext. 10 MHz",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "extRefLed",
+        "x": 1130,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "ce9f8d42c111e6b8",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "loText",
+        "func": "if (msg.payload == \"0\") {\n    msg.payload = \"2256 MHz\"\n} else if (msg.payload == \"1\") {\n    msg.payload = \"2255 MHz\"\n} else if (msg.payload == \"2\") {\n    msg.payload = \"2254 MHz\"\n} else if (msg.payload == \"3\") {\n    msg.payload = \"2253 MHz\"\n} else if (msg.payload == \"4\") {\n    msg.payload = \"1968 MHz\"\n} else if (msg.payload == \"5\") {\n    msg.payload = \"1967 MHz\"\n} else if (msg.payload == \"6\") {\n    msg.payload = \"1966 MHz\"\n} else if (msg.payload == \"7\") {\n    msg.payload = \"1965 MHz\"\n} else {\n    msg.payload = \"unknown\"\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 880,
+        "wires": [
+            [
+                "369b24b36afcdb4d"
+            ]
+        ]
+    },
+    {
+        "id": "369b24b36afcdb4d",
+        "type": "ui_text",
+        "z": "8adea445127c6606",
+        "group": "e09405bf2a73fefa",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "loVAl",
+        "label": "LO Frequency",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1110,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "3d4e456cf659b399",
+        "type": "ui_switch",
+        "z": "8adea445127c6606",
+        "name": "",
+        "label": "PTT",
+        "tooltip": "",
+        "group": "bccf50f72bfccd1e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "P1",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "P0",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 230,
+        "y": 160,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "4268a12f9ec48207",
+        "type": "ui_dropdown",
+        "z": "8adea445127c6606",
+        "name": "",
+        "label": "LO Frequency",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "bccf50f72bfccd1e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "2256 MHz",
+                "value": "I0",
+                "type": "str"
+            },
+            {
+                "label": "2255 MHz",
+                "value": "I1",
+                "type": "str"
+            },
+            {
+                "label": "2254 MHz",
+                "value": "I2",
+                "type": "str"
+            },
+            {
+                "label": "2253 MHz",
+                "value": "I3",
+                "type": "str"
+            },
+            {
+                "label": "1968 MHz",
+                "value": "I4",
+                "type": "str"
+            },
+            {
+                "label": "1967 MHz",
+                "value": "I5",
+                "type": "str"
+            },
+            {
+                "label": "1966 MHz",
+                "value": "I6",
+                "type": "str"
+            },
+            {
+                "label": "1965 MHz",
+                "value": "I7",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "d433dc8a5400b166",
+        "type": "ui_button",
+        "z": "8adea445127c6606",
+        "name": "",
+        "group": "bccf50f72bfccd1e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Store LO Frequency",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "E",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 180,
+        "y": 280,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "b71f86b25d91c91f",
+        "type": "ui_button",
+        "z": "8adea445127c6606",
+        "name": "",
+        "group": "bccf50f72bfccd1e",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Delete SWR Alarm",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "S",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 190,
+        "y": 340,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "8be6ca1d0fe4cd28",
+        "type": "ui_chart",
+        "z": "8adea445127c6606",
+        "name": "paTempHistory",
+        "group": "e09405bf2a73fefa",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "PA Temperature History",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": true,
+        "colors": [
+            "#1f77b4",
+            "#c061cb",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 760,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c7cd951d6d21a91",
+        "type": "ui_switch",
+        "z": "8adea445127c6606",
+        "name": "",
+        "label": "Power",
+        "tooltip": "",
+        "group": "bccf50f72bfccd1e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "O1",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "O0",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 230,
+        "y": 100,
+        "wires": [
+            [
+                "68ce07b943770413"
+            ]
+        ]
+    },
+    {
+        "id": "a0ba7152f7d24666",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerTemp",
+        "func": "msg.payload = \"t\\n\\r\";\nmsg.type = \"temp\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 260,
+        "wires": [
+            [
+                "9fe6d29be4021b5f"
+            ]
+        ]
+    },
+    {
+        "id": "e02fcfefd69db24d",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerPttState",
+        "func": "msg.payload = \"p\\n\\r\";\nmsg.type = \"ptt\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 320,
+        "wires": [
+            [
+                "9fe6d29be4021b5f"
+            ]
+        ]
+    },
+    {
+        "id": "4987d819a20948dd",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerFwdPower",
+        "func": "msg.payload = \"f\\n\\r\";\nmsg.type = \"fwdpwr\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 560,
+        "wires": [
+            [
+                "9fe6d29be4021b5f"
+            ]
+        ]
+    },
+    {
+        "id": "c3ac74e730ac3f8b",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerRefPower",
+        "func": "msg.payload = \"r\\n\\r\";\nmsg.type = \"refpwr\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 680,
+        "wires": [
+            [
+                "9fe6d29be4021b5f"
+            ]
+        ]
+    },
+    {
+        "id": "73497f1dd137c34e",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerLo",
+        "func": "msg.payload = \"i\\n\\r\";\nmsg.type = \"lo\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "be774dfc7364e566",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerExtRef",
+        "func": "msg.payload = \"l\\n\\r\";\nmsg.type = \"pll\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d23c7eca6c9cf44d",
+        "type": "function",
+        "z": "8adea445127c6606",
+        "name": "triggerFwVersion",
+        "func": "msg.payload = \"v\\n\\r\";\nmsg.type = \"version\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9b2b1825e4875bb",
+        "type": "ui_group",
+        "name": "Power / Temperature",
+        "tab": "3c23bde4bb61f2f3",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f535e36151d6ab58",
+        "type": "serial-port",
+        "name": "QuadSerialA",
+        "serialport": "/dev/QuadSerialA",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\r",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "2000"
+    },
+    {
+        "id": "e09405bf2a73fefa",
+        "type": "ui_group",
+        "name": "Info",
+        "tab": "3c23bde4bb61f2f3",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bccf50f72bfccd1e",
+        "type": "ui_group",
+        "name": "Control",
+        "tab": "3c23bde4bb61f2f3",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3c23bde4bb61f2f3",
+        "type": "ui_tab",
+        "name": "MKU 2424 B Controlcenter",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
