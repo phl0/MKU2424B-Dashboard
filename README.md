@@ -25,6 +25,11 @@ This works with firmware version 2.0 of the converter. Other firmware versions h
 * node-red-dashboard
 * node-red-node-serialport
 
+## Versions
+
+* v0.1 Initial release
+* v0.2 Added reading of ext ref to trigger. Added LO and FW version trigger to power and LO buttons.
+
 ## Contributing
 
 Contributors are welcome to file a pull request against the dev branch of this repository.
